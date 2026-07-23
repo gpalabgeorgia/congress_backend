@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <!-- Сплошной серый круг без теней и разрывов -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#e6e8eb" stroke-width="1.5" />
+
+  <!-- Маркер стрелки, который сидит прямо на линии -->
+  <defs>
+    <marker id="arrow-head" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#C51F24"/>
+    </marker>
+  </defs>
+
+  <!-- Красная дуга, наложенная точно поверх серого круга -->
+  <path d="M 50 8 A 42 42 0 0 1 92 50" fill="none" stroke="#C51F24" stroke-width="1.5" marker-end="url(#arrow-head)" />
+
+  <!-- Глобус по центру -->
+  <g transform="translate(50, 50)" stroke="#5c6b73" stroke-width="1.75" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Внешний контур глобуса -->
+    <circle cx="0" cy="0" r="22" />
+    
+    <!-- Горизонтальные линии -->
+    <line x1="-22" y1="0" x2="22" y2="0" />
+    <path d="M -19 -11 Q 0 -6 19 -11" />
+    <path d="M -19 11 Q 0 6 19 11" />
+    
+    <!-- Вертикальные линии -->
+    <path d="M -11 -19 Q -5 0 -11 19" />
+    <path d="M 11 -19 Q 5 0 11 19" />
+    
+    <!-- Центральная красная ось -->
+    <line x1="0" y1="-22" x2="0" y2="22" stroke="#C51F24" />
+  </g>
+</svg>

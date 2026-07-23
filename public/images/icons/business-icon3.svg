@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <!-- Сплошной серый круг без теней и разрывов -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#e6e8eb" stroke-width="1.5" />
+
+  <!-- Маркер стрелки, который сидит прямо на линии -->
+  <defs>
+    <marker id="arrow-head-chart" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#C51F24"/>
+    </marker>
+  </defs>
+
+  <!-- Красная дуга, наложенная точно поверх серого круга -->
+  <path d="M 50 8 A 42 42 0 0 1 92 50" fill="none" stroke="#C51F24" stroke-width="1.5" marker-end="url(#arrow-head-chart)" />
+
+  <!-- График (Центральная часть) — цвет #5c6b73, толщина 1.75 -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    
+    <!-- 1-я колонка (левая, средняя высота) -->
+    <path d="M 28 68 L 28 51 C 28 49.5 29.5 48 31 48 C 32.5 48 34 49.5 34 51 L 34 68 Z" stroke="#5c6b73" stroke-width="1.75" />
+    <path d="M 28 52 C 28 49.5 29.5 48 31 48 C 32.5 48 34 49.5 34 52" stroke="#C51F24" stroke-width="1.75" />
+
+    <!-- 2-я колонка (средняя, самая низкая) -->
+    <path d="M 44 68 L 44 59 C 44 57.5 45.5 56 47 56 C 48.5 56 50 57.5 50 59 L 50 68 Z" stroke="#5c6b73" stroke-width="1.75" />
+    <path d="M 44 60 C 44 57.5 45.5 56 47 56 C 48.5 56 50 57.5 50 60" stroke="#C51F24" stroke-width="1.75" />
+
+    <!-- 3-я колонка (правая, самая высокая) -->
+    <path d="M 60 68 L 60 31 C 60 29.5 61.5 28 63 28 C 64.5 28 66 29.5 66 31 L 66 68 Z" stroke="#5c6b73" stroke-width="1.75" />
+    <path d="M 60 32 C 60 29.5 61.5 28 63 28 C 64.5 28 66 29.5 66 32" stroke="#C51F24" stroke-width="1.75" />
+
+  </g>
+</svg>

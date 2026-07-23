@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <!-- Сплошной серый круг -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#e6e8eb" stroke-width="1.5" />
+
+  <!-- Маркер стрелки на линии -->
+  <defs>
+    <marker id="arrow-head-doc" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#C51F24"/>
+    </marker>
+  </defs>
+
+  <!-- Красная дуга поверх серого круга -->
+  <path d="M 50 8 A 42 42 0 0 1 92 50" fill="none" stroke="#C51F24" stroke-width="1.5" marker-end="url(#arrow-head-doc)" />
+
+  <!-- Документ по центру (цвет #5c6b73, толщина 1.75) -->
+  <g transform="translate(50, 50)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Контур листа с загнутым уголком -->
+    <path d="M -16 22 L 16 22 C 18 22 19 21 19 19 L 19 -9 L 10 -18 L -16 -18 C -18 -18 -19 -17 -19 -15 L -19 19 C -19 21 -18 22 -16 22 Z" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <!-- Красный загнутый уголок -->
+    <path d="M 10 -18 L 10 -11 C 10 -9 11 -9 13 -9 L 19 -9" stroke="#C51F24" stroke-width="1.75" />
+
+    <!-- Иконка профиля внутри документа -->
+    <!-- Голова -->
+    <circle cx="-6" cy="-8" r="3.5" stroke="#5c6b73" stroke-width="1.75" />
+    <!-- Плечи -->
+    <path d="M -12 -1 C -12 -4 -9 -4 -6 -4 C -3 -4 0 -4 0 -1" stroke="#5c6b73" stroke-width="1.75" />
+
+    <!-- Текстовые линии справа от профиля и снизу -->
+    <line x1="4" y1="-8" x2="13" y2="-8" stroke="#5c6b73" stroke-width="1.75" />
+    <line x1="4" y1="-3" x2="13" y2="-3" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <line x1="-13" y1="3" x2="13" y2="3" stroke="#5c6b73" stroke-width="1.75" />
+    <line x1="-13" y1="8" x2="13" y2="8" stroke="#5c6b73" stroke-width="1.75" />
+    <line x1="-13" y1="13" x2="2" y2="13" stroke="#5c6b73" stroke-width="1.75" />
+  </g>
+</svg>

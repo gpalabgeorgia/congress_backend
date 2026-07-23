@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <!-- Сплошной серый круг без теней и разрывов -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#e6e8eb" stroke-width="1.5" />
+
+  <!-- Маркер стрелки, который сидит прямо на линии -->
+  <defs>
+    <marker id="arrow-head-rocket-fixed" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#C51F24"/>
+    </marker>
+  </defs>
+
+  <!-- Красная дуга, наложенная точно поверх серого круга -->
+  <path d="M 50 8 A 42 42 0 0 1 92 50" fill="none" stroke="#C51F24" stroke-width="1.5" marker-end="url(#arrow-head-rocket-fixed)" />
+
+  <!-- Ракета по центру, повернутая НАПРАВО (rotate(45)) -->
+  <g transform="translate(50, 48) rotate(45)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Корпус ракеты (серо-синий #5c6b73, толщина 1.75) -->
+    <path d="M 0 -22 C 6 -12 8 -2 6 12 L -6 12 C -8 -2 -6 -12 0 -22 Z" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <!-- Левое крыло -->
+    <path d="M -7 4 C -14 4 -16 10 -14 16 L -6 12" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <!-- Правое крыло -->
+    <path d="M 7 4 C 14 4 16 10 14 16 L 6 12" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <!-- Круглый иллюминатор -->
+    <circle cx="0" cy="-6" r="4" stroke="#5c6b73" stroke-width="1.75" />
+    
+    <!-- Маленькое нижнее окошко (красное #C51F24) -->
+    <rect x="-2" y="3" width="4" height="2" rx="0.5" stroke="#C51F24" stroke-width="1.75" />
+    
+    <!-- Пламя под ракетой -->
+    <path d="M -4 14 L -6 21 L -1 18 L 0 23 L 1 18 L 6 21 L 4 14" stroke="#5c6b73" stroke-width="1.5" />
+  </g>
+</svg>
