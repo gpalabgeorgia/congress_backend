@@ -23,7 +23,7 @@ body {
     overflow-x: hidden;
 }
 body.no-scroll {
-    overflow: hidden; /* Блокировка скролла при открытом меню */
+    overflow: hidden;
 }
 .container {
     max-width: 1200px;
@@ -295,7 +295,9 @@ body.no-scroll {
     min-height: 800px;
     display: flex;
     align-items: center;
-    background: url('../images/hero-bg.png') no-repeat center center;
+    background-image: var(--hero-bg, url('../images/hero-bg.png'));
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
     background-color: var(--color-white);
     color: var(--color-dark);
@@ -327,8 +329,14 @@ body.no-scroll {
     margin-bottom: 10px;
     text-transform: uppercase;
 }
+.hero-content__title b,
+.hero-content__title strong {
+    font-weight: 800;
+    display: inline-block;
+    color: #333333;
+}
 .hero-content__title span {
-    font-weight: 700;
+    font-weight: 800;
     color: #333333;
 }
 .hero-content__subtitle {

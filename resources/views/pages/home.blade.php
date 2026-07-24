@@ -2,58 +2,47 @@
 @section('content')
     <main>
         <!-- პრემიალური Hero-ბლოკი ვიდეო-ფოტო ყდით -->
-        <section class="hero-premium">
+        <section class="hero-premium" style="--hero-bg: url('{{ $heroBanner?->bg_image_url }}');">
             <div class="hero-premium__container">
                 <!-- ტექსტური ბლოკი -->
                 <div class="hero-content">
-                    <h1 class="hero-content__title">
-                        ერთობა ჩვენი ძალაა,<br>
-                        <span>საქართველო ჩვენი სახლია.</span>
-                    </h1>
-                    <p class="hero-content__subtitle">
-                        ერთად ვაძლიერებთ დემოკრატიას,<br>
-                        და ვქმნით საერთო მომავალს.
-                    </p>
+                    @if($title = $heroBanner?->getTranslation('title'))
+                        <h1 class="hero-content__title">
+                            {!! $title !!}
+                        </h1>
+                    @endif
+
+                    @if($subtitle = $heroBanner?->getTranslation('subtitle'))
+                        <p class="hero-content__subtitle">
+                            {!! nl2br(e($subtitle)) !!}
+                        </p>
+                    @endif
+
                     <!-- წითელი გამყოფი ხაზი -->
                     <div class="hero-content__divider"></div>
-                    <p class="hero-content__desc">
-                        შემოუერთდი ქართველთა მსოფლიო კონგრესს,<br>
-                        ერთად გავაძლიეროთ საქართველო!.
-                    </p>
+
+                    @if($desc = $heroBanner?->getTranslation('desc'))
+                        <p class="hero-content__desc">
+                            {!! nl2br(e($desc)) !!}
+                        </p>
+                    @endif
                 </div>
+
                 <!-- დინამიური აიქონი ბმულების ბლოკი -->
-                <div class="hero-features">
-                    <a href="#unidade" class="hero-features__item">
-                        <div class="hero-features__icon">
-                            <img src="images/icons/unidade.png" alt="Unidade" class="hero-features__img">
-                        </div>
-                        <span class="hero-features__label">პარტნიორები</span>
-                    </a>
-                    <a href="#cultura" class="hero-features__item">
-                        <div class="hero-features__icon">
-                            <img src="images/icons/cultura.png" alt="Cultura" class="hero-features__img">
-                        </div>
-                        <span class="hero-features__label">კულტურა</span>
-                    </a>
-                    <a href="#heranca" class="hero-features__item">
-                        <div class="hero-features__icon">
-                            <img src="images/icons/life.png" alt="Life" class="hero-features__img">
-                        </div>
-                        <span class="hero-features__label">პოლიტიკა</span>
-                    </a>
-                    <a href="#esperanca" class="hero-features__item">
-                        <div class="hero-features__icon">
-                            <img src="images/icons/sun.png" alt="Sun Icon" class="hero-features__img">
-                        </div>
-                        <span class="hero-features__label">ეკონომიკა</span>
-                    </a>
-                    <a href="#regresso" class="hero-features__item">
-                        <div class="hero-features__icon">
-                            <img src="images/icons/geo.png" alt="Georgia map" class="hero-features__img">
-                        </div>
-                        <span class="hero-features__label">ოკუპაცია</span>
-                    </a>
-                </div>
+                @if($heroBanner && count($heroBanner->formatted_features))
+                    <div class="hero-features">
+                        @foreach($heroBanner->formatted_features as $feature)
+                            <a href="{{ $feature['url'] }}" class="hero-features__item">
+                                <div class="hero-features__icon">
+                                    @if($feature['icon'])
+                                        <img src="{{ $feature['icon'] }}" alt="{{ $feature['label'] }}" class="hero-features__img">
+                                    @endif
+                                </div>
+                                <span class="hero-features__label">{{ $feature['label'] }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </section>
         <!-- ვიზულაური ბარათების ბლოკი (მოღვაწეობის მიმართულებები) -->
