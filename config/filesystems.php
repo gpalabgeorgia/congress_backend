@@ -42,11 +42,11 @@ return [
             'visibility' => 'public',
         ],
 
-        // Кастомный диск для прямой загрузки в public/images
+
         'public_uploads' => [
             'driver' => 'local',
-            'root' => public_path('images'),
-            'url' => env('APP_URL').'/images',
+            'root' => public_path(),
+            'url' => env('APP_URL'),
             'visibility' => 'public',
         ],
 

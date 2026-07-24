@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
-use App\Models\HeroBanner; // <--- 1. Добавили импорт
+use App\Models\HeroBanner;
 use App\Models\Language;
 use App\Models\MenuItem;
 use App\Models\SocialLink;
+use App\Models\VideoSection;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -46,7 +47,8 @@ class HomeController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        // <--- 3. Передаем $heroBanner в compact
-        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features'));
+        $videoSection = VideoSection::where('is_active', true)->first();
+
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection'));
     }
 }
