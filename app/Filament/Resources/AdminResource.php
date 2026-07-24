@@ -24,31 +24,30 @@ class AdminResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
-                    ->label('Имя')
+                    ->label('სახელი')
                     ->required(),
                 Forms\Components\TextInput::make('last_name')
-                    ->label('Фамилия')
+                    ->label('გვარი')
                     ->required(),
                 Forms\Components\TextInput::make('country')
-                    ->label('Страна')
+                    ->label('ქვეყანა')
                     ->required(),
                 Forms\Components\TextInput::make('city')
-                    ->label('Город')
+                    ->label('ქალაქი')
                     ->required(),
                 Forms\Components\TextInput::make('address')
-                    ->label('Адрес')
+                    ->label('მისამართი')
                     ->required(),
                 Forms\Components\TextInput::make('phone')
-                    ->label('Телефон')
+                    ->label('ტელეფონი')
                     ->tel()
                     ->required(),
                 Forms\Components\TextInput::make('email')
                     ->label('Email')
                     ->email()
                     ->required(),
-                // Поле пароля будет отображаться ТОЛЬКО при создании нового админа
                 Forms\Components\TextInput::make('password')
-                    ->label('Пароль')
+                    ->label('პაროლი')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->required()

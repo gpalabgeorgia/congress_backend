@@ -27,7 +27,7 @@ class MenuItemResource extends Resource
                 Forms\Components\Card::make()->schema([
                     // Выбор родительского пункта (для подкатегорий)
                     Forms\Components\Select::make('parent_id')
-                        ->label('მშობელი პუნქტი / Родительский пункт')
+                        ->label('მშობელი პუნქტი')
                         ->options(function (?MenuItem $record) {
                             // Получаем только пункты верхнего уровня
                             $query = MenuItem::whereNull('parent_id');
@@ -39,31 +39,31 @@ class MenuItemResource extends Resource
 
                             return $query->pluck('title', 'id');
                         })
-                        ->placeholder('— მთავარი დონე (Верхний уровень) —')
+                        ->placeholder('— მთავარი დონე —')
                         ->searchable()
                         ->nullable(),
 
                     Forms\Components\TextInput::make('title')
-                        ->label('სათაური / Название')
-                        ->placeholder('Например: კონგრესები')
+                        ->label('სათაური')
+                        ->placeholder('მაგალითად: კონგრესები')
                         ->required(),
 
                     Forms\Components\TextInput::make('url')
-                        ->label('ლინკი / Ссылка')
-                        ->placeholder('Например: /congresses или #')
+                        ->label('ლინკი')
+                        ->placeholder('მაგალითად: /congresses или #')
                         ->nullable(),
 
                     Forms\Components\TextInput::make('sort_order')
-                        ->label('სორტირება / Порядок')
+                        ->label('სორტირება')
                         ->numeric()
                         ->default(0),
 
                     Forms\Components\Toggle::make('is_active')
-                        ->label('აქტიური / Активен')
+                        ->label('აქტიური')
                         ->default(true),
 
                     Forms\Components\Toggle::make('target_blank')
-                        ->label('ახალ ფანჯარაში გახსნა / Новая вкладка')
+                        ->label('ახალ ფანჯარაში გახსნა')
                         ->default(false),
                 ]),
             ]);
@@ -74,24 +74,24 @@ class MenuItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Название')
+                    ->label('სახელი')
                     ->searchable()
                     ->sortable(),
 
                 // Показываем, к какому родителю относится (если это подпункт)
                 Tables\Columns\TextColumn::make('parent.title')
-                    ->label('Родительский пункт')
-                    ->default('— Верхний уровень —')
+                    ->label('მშობელი პუნქტი')
+                    ->default('— ზედა დონე —')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('url')
-                    ->label('Ссылка'),
+                    ->label('ბმული'),
 
                 Tables\Columns\BooleanColumn::make('is_active')
-                    ->label('Активен'),
+                    ->label('სტატუსი'),
 
                 Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Сортировка')
+                    ->label('დახარისხება')
                     ->sortable(),
             ])
             ->defaultSort('sort_order', 'asc')

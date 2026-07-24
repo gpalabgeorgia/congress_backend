@@ -57,12 +57,17 @@
 
                 <div class="header__lang">
                     <button class="header__lang-toggle" aria-label="Language">
-                        <i class="fas fa-globe"></i> ქართული
+                        <i class="fas fa-globe"></i>
                     </button>
                     <ul class="header__lang-dropdown">
-                        <li><a href="#" class="header__lang-item active">ქართული</a></li>
-                        <li><a href="#" class="header__lang-item">English</a></li>
-                        <li><a href="#" class="header__lang-item">Deutsch</a></li>
+                        @foreach($languages as $lang)
+                            <li>
+                                <a href="{{ route('lang.switch', $lang->code) }}"
+                                   class="header__lang-item {{ app()->getLocale() === $lang->code ? 'active' : '' }}">
+                                    {{ $lang->name }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -79,11 +84,18 @@
                 </div>
                 <span class="header__divider">|</span>
                 <div class="header__lang">
-                    <button class="header__lang-toggle" aria-label="Language"><i class="fas fa-globe"></i></button>
+                    <button class="header__lang-toggle" aria-label="Language">
+                        <i class="fas fa-globe"></i>
+                    </button>
                     <ul class="header__lang-dropdown">
-                        <li><a href="#" class="header__lang-item active">ქართული</a></li>
-                        <li><a href="#" class="header__lang-item">English</a></li>
-                        <li><a href="#" class="header__lang-item">Deutsch</a></li>
+                        @foreach($languages as $lang)
+                            <li>
+                                <a href="{{ route('lang.switch', $lang->code) }}"
+                                   class="header__lang-item {{ app()->getLocale() === $lang->code ? 'active' : '' }}">
+                                    {{ $lang->name }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

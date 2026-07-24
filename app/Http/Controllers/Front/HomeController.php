@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Models\SocialLink;
@@ -15,7 +16,7 @@ class HomeController extends Controller
         $socialLinks = SocialLink::where('is_active', true)
             ->orderBy('sort_order', 'asc')
             ->get();
-        // Загружаем только главные пункты И их вложенные подпункты
+        // ვტვირთავთ მხოლოდ მთავარ მენიუს პუნქტებს და მათში ჩადებულ კატეგორიებს
         $menuItems = MenuItem::whereNull('parent_id')
             ->where('is_active', true)
             ->with(['children' => function ($query) {
@@ -23,6 +24,16 @@ class HomeController extends Controller
             }])
             ->orderBy('sort_order', 'asc')
             ->get();
-        return view('pages.home', compact('socialLinks', 'menuItems'));
+        // ვტვირთავთ აქტიურ ენებს
+        $languages = Language::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
+        // ვღებულობთ მიმდინარე ან ნაგულისხმევ ენას მბ-დან
+        $currentLocale = app()->getLocale();
+        $currentLanguage = $languages->firstWhere('code', $currentLocale)
+            ?? $languages->firstWhere('is_default', true)
+            ?? $languages->first();
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage'));
     }
 }

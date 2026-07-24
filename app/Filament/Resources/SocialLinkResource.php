@@ -22,8 +22,6 @@ class SocialLinkResource extends Resource
     protected static ?string $model = SocialLink::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-share';
-
-    // Помещаем социальные сети в группу "მთავარი"
     protected static ?string $navigationGroup = 'მთავარი';
 
     protected static ?string $navigationLabel = 'სოციალური ქსელები';
@@ -49,11 +47,10 @@ class SocialLinkResource extends Resource
                 Card::make()->schema([
                     // 1. Поле Название
                     TextInput::make('name')
-                        ->label('სახელი / Название')
-                        ->placeholder('Например: YouTube')
+                        ->label('სახელი')
+                        ->placeholder('მაგალითად: YouTube')
                         ->required()
                         ->reactive()
-                        // Когда админ вводит название, пробуем авто-подставить иконку
                         ->afterStateUpdated(function ($state, callable $set) use ($socialIcons) {
                             if (! $state) return;
 
@@ -64,28 +61,26 @@ class SocialLinkResource extends Resource
                                 }
                             }
                         }),
-
-                    // 2. Выбор иконки из готового списка (с возможностью ручного ввода)
                     Select::make('icon')
-                        ->label('Иконка FontAwesome')
+                        ->label('FontAwesome-ის აიქონი')
                         ->options($socialIcons)
                         ->searchable()
                         ->required()
-                        ->helperText('Выберите соцсеть из списка или введите класс вручную'),
+                        ->helperText('აირჩიეთ სოც.ქსელი სიიდან ან შეიყვანეთ ხელით'),
 
                     TextInput::make('url')
-                        ->label('ლინკი / Ссылка')
+                        ->label('ლინკი')
                         ->url()
                         ->placeholder('https://youtube.com/@channel')
                         ->required(),
 
                     TextInput::make('sort_order')
-                        ->label('სორტირება / Порядок')
+                        ->label('სორტირება')
                         ->numeric()
                         ->default(0),
 
                     Toggle::make('is_active')
-                        ->label('აქტიური / Активен')
+                        ->label('აქტიური')
                         ->default(true),
                 ]),
             ]);
@@ -96,31 +91,31 @@ class SocialLinkResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Название')
+                    ->label('სახელი')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('icon')
-                    ->label('Иконка FontAwesome'),
+                    ->label('FontAwesome-ის აიქონი'),
 
                 Tables\Columns\TextColumn::make('url')
-                    ->label('Ссылка')
+                    ->label('ბმული')
                     ->limit(30),
 
                 Tables\Columns\BooleanColumn::make('is_active')
-                    ->label('Активен'),
+                    ->label('სტატუსი'),
 
                 Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Сортировка')
+                    ->label('დახარისხება')
                     ->sortable(),
             ])
             ->defaultSort('sort_order', 'asc')
             ->actions([
                 EditAction::make(),
-                DeleteAction::make(), // Кнопка «Удалить» для каждой строки
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(), // Групповое удаление галочками
+                DeleteBulkAction::make(),
             ]);
     }
 
