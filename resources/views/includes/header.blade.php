@@ -11,28 +11,54 @@
         <!-- ნავიგაცია -->
         <nav class="header__nav">
             <ul class="navigation__list">
-                <li><a href="index.html" class="navigation__link navigation__link--active">მთავარი</a></li>
-                <li class="dropdown">
-                    <a href="#" class="navigation__link dropdown-toggle">ჩვენს შესახებ</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html" class="dropdown-item">კონგრესი</a></li>
-                        <li><a href="charter.html" class="dropdown-item">წესდება</a></li>
-                        <li><a href="protocols.html" class="dropdown-item">ოქმები</a></li>
-                        <li><a href="projects.html" class="dropdown-item">პროექტები</a></li>
-                    </ul>
-                </li>
-                <li><a href="business-hub.html" class="navigation__link">ბიზნეს-ჰაბი</a></li>
-                <li><a href="contact" class="navigation__link">კონტაქტი</a></li>
+                @foreach($menuItems as $item)
+                    @php
+                        // Проверяем, совпадает ли текущий URL с ссылкой пункта (для добавления класса active)
+                        $isActive = request()->is(ltrim($item->url, '/')) || request()->url() == url($item->url);
+                        $hasChildren = $item->children->isNotEmpty();
+                    @endphp
+
+                    <li class="{{ $hasChildren ? 'dropdown' : '' }}">
+                        <a href="{{ $item->url ?? '#' }}"
+                           class="navigation__link {{ $isActive ? 'navigation__link--active' : '' }} {{ $hasChildren ? 'dropdown-toggle' : '' }}"
+                           @if($item->target_blank) target="_blank" rel="noopener noreferrer" @endif>
+                            {{ $item->title }}
+                        </a>
+
+                        @if($hasChildren)
+                            <ul class="dropdown-menu">
+                                @foreach($item->children as $child)
+                                    <li>
+                                        <a href="{{ $child->url }}"
+                                           class="dropdown-item"
+                                           @if($child->target_blank) target="_blank" rel="noopener noreferrer" @endif>
+                                            {{ $child->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+                @endforeach
             </ul>
-            <!-- ბლოკი, რომელიც გამოსახული იქნება მხოლოდ მენიუს მობილურ ვერსიაში -->
+
+            <!-- Блок, который отображается в мобильной версии меню -->
             <div class="header__menu-mobile-meta">
                 <div class="header__socials">
-                    <a href="https://facebook.com" class="header__social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://youtube.com" class="header__social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-                    <a href="https://twitter.com" class="header__social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    @foreach($socialLinks as $social)
+                        <a href="{{ $social->url }}"
+                           class="header__social-link"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="{{ $social->icon }}"></i>
+                        </a>
+                    @endforeach
                 </div>
+
                 <div class="header__lang">
-                    <button class="header__lang-toggle" aria-label="Language"><i class="fas fa-globe"></i> ქართული</button>
+                    <button class="header__lang-toggle" aria-label="Language">
+                        <i class="fas fa-globe"></i> ქართული
+                    </button>
                     <ul class="header__lang-dropdown">
                         <li><a href="#" class="header__lang-item active">ქართული</a></li>
                         <li><a href="#" class="header__lang-item">English</a></li>
