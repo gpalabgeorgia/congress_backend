@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feature;
 use App\Models\HeroBanner; // <--- 1. Добавили импорт
 use App\Models\Language;
 use App\Models\MenuItem;
@@ -41,7 +42,11 @@ class HomeController extends Controller
             ?? $languages->firstWhere('is_default', true)
             ?? $languages->first();
 
+        $features = Feature::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
         // <--- 3. Передаем $heroBanner в compact
-        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner'));
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features'));
     }
 }

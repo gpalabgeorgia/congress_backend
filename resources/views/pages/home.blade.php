@@ -46,56 +46,56 @@
             </div>
         </section>
         <!-- ვიზულაური ბარათების ბლოკი (მოღვაწეობის მიმართულებები) -->
-        <section class="features">
-            <div class="container">
-                <div class="features__grid">
-                    <!-- ბარათი 1 -->
-                    <a href="#" class="card card--network">
-                        <div class="card__background-flag"></div>
-                        <div class="card__icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                                <path d="M2 12h20"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">დემოკრატია - უინსტონ ჩერჩილი</h3>
-                        <p class="card__text">1947 წელი, 11 ნოემბერი: "დემოკრატია ყველაზე საშინელი მმართველობის ფორმაა, მაგრამ მასზე უკეთესი არ არსებობს".</p>
-                        <div class="card__action">
-                            <span>გაიგე მეტი</span>
-                        </div>
-                    </a>
-                    <!-- ბარათი 2 -->
-                    <a href="#" class="card card--culture">
-                        <div class="card__background-flag"></div>
-                        <div class="card__icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M3 22h18M5 10v10M9 10v10M15 10v10M19 10v10M12 2L2 7v3h20V7L12 2z"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">კულტურული მემკვიდრეობა</h3>
-                        <p class="card__text">ქართული ენის, ისტორიისა და თვითმყოფადობის შენარჩუნება და პოპულარიზაცია საზღვარგარეთ.</p>
-                        <div class="card__action">
-                            <span>გაიგე მეტი</span>
-                        </div>
-                    </a>
-                    <!-- ბარათი 3 -->
-                    <a href="#" class="card card--growth">
-                        <div class="card__background-flag"></div>
-                        <div class="card__icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M18 20V10M12 20V4M6 20v-6" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">განვითარება და მხარდაჭერა</h3>
-                        <p class="card__text">ერთობლივი საგანმანათლებლო, საქველმოქმედო და ბიზნეს-პროექტების რეალიზაცია.</p>
-                        <div class="card__action">
-                            <span>გაიგე მეტი</span>
-                        </div>
-                    </a>
+        @if(isset($features) && $features->count())
+            <section class="features">
+                <div class="container">
+                    <div class="features__grid">
+                        @foreach($features as $feature)
+                            <a href="{{ $feature->url }}" class="card {{ $feature->card_type }}">
+                                <div class="card__background-flag"></div>
+
+                                <div class="card__icon-box">
+                                    @switch($feature->card_type)
+                                        @case('card--culture')
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                                <path d="M3 22h18M5 10v10M9 10v10M15 10v10M19 10v10M12 2L2 7v3h20V7L12 2z"/>
+                                            </svg>
+                                            @break
+
+                                        @case('card--growth')
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                                <path d="M18 20V10M12 20V4M6 20v-6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            @break
+
+                                        @default
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                                <path d="M2 12h20"/>
+                                            </svg>
+                                    @endswitch
+                                </div>
+
+                                <h3 class="card__title">
+                                    {{ $feature->getTranslation('title') }}
+                                </h3>
+
+                                <p class="card__text">
+                                    {{ $feature->getTranslation('text') }}
+                                </p>
+
+                                @if($actionText = $feature->getTranslation('action_text'))
+                                    <div class="card__action">
+                                        <span>{{ $actionText }}</span>
+                                    </div>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
         <!-- ==========================================================================
        6. ვიდეო სექცია (VIDEO SECTION)
        ========================================================================== -->
