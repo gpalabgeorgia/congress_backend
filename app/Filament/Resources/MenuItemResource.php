@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MenuItemResource\Pages;
+use App\Models\Language;
 use App\Models\MenuItem;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -14,58 +15,69 @@ class MenuItemResource extends Resource
 {
     protected static ?string $model = MenuItem::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-menu-alt-2';
+    protected static ?string $navigationIcon = 'heroicon-o-menu';
     protected static ?string $navigationGroup = 'მთავარი';
     protected static ?string $navigationLabel = 'მთავარი მენიუ';
-    protected static ?string $pluralModelLabel = 'მთავარი მენიუ';
-    protected static ?string $modelLabel = 'მენიუს პუნქტი';
 
     public static function form(Form $form): Form
     {
+        $languages = Language::where('is_active', true)->orderBy('sort_order', 'asc')->get();
+
+        $tabs = [];
+
+        foreach ($languages as $lang) {
+            $isDefault = $lang->is_default;
+            $code = $lang->code;
+
+            if ($isDefault) {
+                $tabs[] = Forms\Components\Tabs\Tab::make(strtoupper($code))
+                    ->schema([
+                        Forms\Components\Select::make('parent_id')
+                            ->label('მშობელი პუნქტი')
+                            ->options(fn ($record) => MenuItem::whereNull('parent_id')
+                                ->when($record, fn ($q) => $q->where('id', '!=', $record->id))
+                                ->get()
+                                ->pluck('translated_title', 'id')
+                            )
+                            ->placeholder('— მთავარი დონე —')
+                            ->nullable(),
+
+                        Forms\Components\TextInput::make("title.{$code}")
+                            ->label('სათაური (' . strtoupper($code) . ')')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('url')
+                            ->label('ლინკი')
+                            ->nullable(),
+
+                        Forms\Components\TextInput::make('sort_order')
+                            ->label('სორტირება')
+                            ->numeric()
+                            ->default(1),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('აქტიური')
+                            ->default(true),
+
+                        Forms\Components\Toggle::make('target_blank')
+                            ->label('ახალ ფანჯარაში გახსნა')
+                            ->default(false),
+                    ]);
+            } else {
+                $tabs[] = Forms\Components\Tabs\Tab::make(strtoupper($code))
+                    ->schema([
+                        Forms\Components\TextInput::make("title.{$code}")
+                            ->label('სათაური (' . strtoupper($code) . ')')
+                            ->nullable(),
+                    ]);
+            }
+        }
+
         return $form
             ->schema([
-                Forms\Components\Card::make()->schema([
-                    // Выбор родительского пункта (для подкатегорий)
-                    Forms\Components\Select::make('parent_id')
-                        ->label('მშობელი პუნქტი')
-                        ->options(function (?MenuItem $record) {
-                            // Получаем только пункты верхнего уровня
-                            $query = MenuItem::whereNull('parent_id');
-
-                            // При редактировании исключаем сам этот пункт из списка
-                            if ($record) {
-                                $query->where('id', '!=', $record->id);
-                            }
-
-                            return $query->pluck('title', 'id');
-                        })
-                        ->placeholder('— მთავარი დონე —')
-                        ->searchable()
-                        ->nullable(),
-
-                    Forms\Components\TextInput::make('title')
-                        ->label('სათაური')
-                        ->placeholder('მაგალითად: კონგრესები')
-                        ->required(),
-
-                    Forms\Components\TextInput::make('url')
-                        ->label('ლინკი')
-                        ->placeholder('მაგალითად: /congresses или #')
-                        ->nullable(),
-
-                    Forms\Components\TextInput::make('sort_order')
-                        ->label('სორტირება')
-                        ->numeric()
-                        ->default(0),
-
-                    Forms\Components\Toggle::make('is_active')
-                        ->label('აქტიური')
-                        ->default(true),
-
-                    Forms\Components\Toggle::make('target_blank')
-                        ->label('ახალ ფანჯარაში გახსნა')
-                        ->default(false),
-                ]),
+                Forms\Components\Tabs::make('Languages')
+                    ->tabs($tabs)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -73,34 +85,29 @@ class MenuItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextColumn::make('translated_title')
                     ->label('სახელი')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
 
-                // Показываем, к какому родителю относится (если это подпункт)
-                Tables\Columns\TextColumn::make('parent.title')
+                Tables\Columns\TextColumn::make('parent.translated_title')
                     ->label('მშობელი პუნქტი')
-                    ->default('— ზედა დონე —')
-                    ->sortable(),
+                    ->default('— ზედა დონე —'),
 
                 Tables\Columns\TextColumn::make('url')
                     ->label('ბმული'),
 
-                Tables\Columns\BooleanColumn::make('is_active')
-                    ->label('სტატუსი'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('აქტიური')
+                    ->boolean(),
 
                 Tables\Columns\TextColumn::make('sort_order')
-                    ->label('დახარისხება')
+                    ->label('სორტირება')
                     ->sortable(),
             ])
             ->defaultSort('sort_order', 'asc')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

@@ -2,15 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MenuItem extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'parent_id',
         'title',
@@ -21,19 +16,30 @@ class MenuItem extends Model
     ];
 
     protected $casts = [
+        'title' => 'array',
         'is_active' => 'boolean',
         'target_blank' => 'boolean',
     ];
 
-    // Связь с родительским пунктом
-    public function parent(): BelongsTo
+    public function parent()
     {
         return $this->belongsTo(MenuItem::class, 'parent_id');
     }
 
-    // Связь с подпунктами (дочерние элементы)
-    public function children(): HasMany
+    public function children()
     {
-        return $this->hasMany(MenuItem::class, 'parent_id')->orderBy('sort_order', 'asc');
+        return $this->hasMany(MenuItem::class, 'parent_id');
+    }
+
+    public function getTranslatedTitleAttribute(): string
+    {
+        $titles = $this->title;
+
+        if (is_array($titles)) {
+            $locale = app()->getLocale();
+            return $titles[$locale] ?? $titles['ka'] ?? reset($titles) ?: '';
+        }
+
+        return is_string($titles) ? $titles : '';
     }
 }
