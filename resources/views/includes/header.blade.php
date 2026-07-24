@@ -45,9 +45,11 @@
         <div class="header__right">
             <div class="header__top-bar">
                 <div class="header__socials">
-                    <a href="https://facebook.com" class="header__social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://youtube.com" class="header__social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-                    <a href="https://twitter.com" class="header__social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    @foreach($socialLinks as $social)
+                        <a href="{{ $social->url }}" class="header__social-link" target="_blank" rel="noopener noreferrer">
+                            <i class="{{ $social->icon }}"></i>
+                        </a>
+                    @endforeach
                 </div>
                 <span class="header__divider">|</span>
                 <div class="header__lang">
