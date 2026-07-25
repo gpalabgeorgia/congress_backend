@@ -11,53 +11,73 @@
     </div>
     <div class="footer-container">
         <div class="footer-grid">
+
             <div class="footer-col footer-col-left">
                 <div class="logo-wrapper">
-                    <img src="images/logo.png" alt="Logo" class="footer-left-logo">
+                    <img src="{{ ($footerSetting && $footerSetting->logo_path) ? asset($footerSetting->logo_path) : asset('images/logo.png') }}" alt="Logo" class="footer-left-logo">
                     <div class="vertical-divider"></div>
                 </div>
                 <div class="copyright-box">
-                    <p class="footer-text">Copyright © 2026</p>
+                    <p class="footer-text">
+                        {{ $footerSetting ? $footerSetting->getTranslation('copyright_text') : 'Copyright © ' . date('Y') }}
+                    </p>
                 </div>
             </div>
+
             <div class="footer-col footer-col-center">
-                <h3 class="footer-brand-title">ქართველთა მსოფლიო კონგრესი</h3>
+                <h3 class="footer-brand-title">
+                    {{ $footerSetting ? $footerSetting->getTranslation('title') : 'ქართველთა მსოფლიო კონგრესი' }}
+                </h3>
+
+                {{-- Навигация из $menuItems --}}
                 <nav class="footer-nav">
                     <ul class="footer-nav-list">
-                        <li><a href="#" class="footer-nav-link">მთავარი</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="navigation__link dropdown-toggle">კონგრესი</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="dropdown-item">ჩვენს შესახებ</a></li>
-                                <li><a href="#" class="dropdown-item">წესდება</a></li>
-                                <li><a href="#" class="dropdown-item">ოქმები</a></li>
-                                <li><a href="#" class="dropdown-item">პროექტები</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="footer-nav-link">ინიციატივები</a></li>
-                        <li><a href="#" class="footer-nav-link">კონტაქტი</a></li>
+                        @foreach($menuItems as $item)
+                            @if($item->children && $item->children->count() > 0)
+                                <li class="dropdown">
+                                    <a href="{{ $item->url ?? '#' }}" class="navigation__link dropdown-toggle" @if($item->target_blank) target="_blank" @endif>
+                                        {{ $item->translated_title }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @foreach($item->children as $child)
+                                            <li>
+                                                <a href="{{ $child->url }}" class="dropdown-item" @if($child->target_blank) target="_blank" @endif>
+                                                    {{ $child->translated_title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ $item->url }}" class="footer-nav-link" @if($item->target_blank) target="_blank" @endif>
+                                        {{ $item->translated_title }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </nav>
-                <div class="footer-socials">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="YouTube">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.388.507 9.388.507s7.517 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </a>
+
+                <div class="header__social-link">
+                    @foreach($socialLinks as $social)
+                        <a href="{{ $social->url }}" class="header__social-link" target="_blank" rel="noopener noreferrer">
+                            <i class="{{ $social->icon }}"></i>
+                        </a>
+                    @endforeach
                 </div>
             </div>
+
             <div class="footer-col footer-col-right">
-                <div class="placeholder-wrapper">
-                </div>
+                <div class="placeholder-wrapper"></div>
                 <div class="developer-box">
-                    <p class="footer-text">Powered by <a href="#" class="dev-link">GPALAB</a></p>
+                    <p class="footer-text">
+                        {{ $footerSetting ? $footerSetting->getTranslation('developer_text') : 'Powered by' }}
+                        <a href="{{ $footerSetting->developer_url ?? '#' }}" target="_blank" class="dev-link">GPALAB</a>
+                    </p>
                 </div>
             </div>
         </div>
-        <img src="images/flags/worldMap.png" alt="World Map" class="footer-bg-map">
+        <img src="{{ asset('images/flags/worldMap.png') }}" alt="World Map" class="footer-bg-map">
     </div>
 </footer>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
+use App\Models\FooterSetting;
 use App\Models\HeroBanner;
 use App\Models\Language;
 use App\Models\MenuItem;
@@ -57,6 +58,8 @@ class HomeController extends Controller
 
         $newsletterSection = NewsletterSection::where('is_active', true)->first();
 
-        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection', 'events', 'newsletterSection'));
+        $footerSetting = FooterSetting::first();
+
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection', 'events', 'newsletterSection', 'footerSetting'));
     }
 }
