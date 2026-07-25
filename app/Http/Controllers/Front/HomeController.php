@@ -10,6 +10,7 @@ use App\Models\MenuItem;
 use App\Models\SocialLink;
 use App\Models\VideoSection;
 use Illuminate\Http\Request;
+use App\Models\EventItem;
 
 class HomeController extends Controller
 {
@@ -49,6 +50,10 @@ class HomeController extends Controller
 
         $videoSection = VideoSection::where('is_active', true)->first();
 
-        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection'));
+        $events = EventItem::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection', 'events'));
     }
 }
