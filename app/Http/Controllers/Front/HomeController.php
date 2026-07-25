@@ -7,6 +7,7 @@ use App\Models\Feature;
 use App\Models\HeroBanner;
 use App\Models\Language;
 use App\Models\MenuItem;
+use App\Models\NewsletterSection;
 use App\Models\SocialLink;
 use App\Models\VideoSection;
 use Illuminate\Http\Request;
@@ -54,6 +55,8 @@ class HomeController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection', 'events'));
+        $newsletterSection = NewsletterSection::where('is_active', true)->first();
+
+        return view('pages.home', compact('socialLinks', 'menuItems', 'languages', 'currentLanguage', 'heroBanner', 'features', 'videoSection', 'events', 'newsletterSection'));
     }
 }

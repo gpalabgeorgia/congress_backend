@@ -3,6 +3,7 @@
 use App\Http\Controllers\Front\HomeController;
 use App\Models\Language;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Front\NewsletterController;
 
 
 
@@ -15,4 +16,5 @@ Route::get('/lang/{code}', function ($code) {
     }
     return redirect()->back();
 })->name('lang.switch');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
