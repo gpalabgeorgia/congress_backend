@@ -7,4 +7,6 @@
     @endif
 
     @include('about_sections.mission_section')
+
+    @include('about_sections.activity_section')
 @endsection

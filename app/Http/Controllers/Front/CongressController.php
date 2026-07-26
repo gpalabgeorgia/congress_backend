@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityAndConnection;
 use App\Models\CongressPage;
 use App\Models\CongressSection;
 use App\Models\FooterSetting;
@@ -20,6 +21,7 @@ class CongressController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
         $mission = OurMission::where('is_active', true)->first();
+        $activity = ActivityAndConnection::where('is_active', true)->first();
 /*
  *
  * ეს ცვლადები გლობალურია და ყველა კონტროლერშია საჭირო
@@ -51,6 +53,6 @@ class CongressController extends Controller
  *
 */
 
-        return view('pages.congress', compact('congressPage', 'socialLinks', 'menuItems', 'languages', 'footerSetting', 'currentLanguage', 'sections', 'mission'));
+        return view('pages.congress', compact('congressPage', 'socialLinks', 'menuItems', 'languages', 'footerSetting', 'currentLanguage', 'sections', 'mission', 'activity'));
     }
 }
