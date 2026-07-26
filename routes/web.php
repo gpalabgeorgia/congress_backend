@@ -18,5 +18,5 @@ Route::get('/lang/{code}', function ($code) {
     return redirect()->back();
 })->name('lang.switch');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
-Route::get('/about', [CongressController::class, 'index'])->name('congress.index');
+Route::get('/about-us', [CongressController::class, 'index'])->name('congress.index');
 

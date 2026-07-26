@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\CongressPage;
+use App\Models\CongressSection;
 use App\Models\FooterSetting;
 use App\Models\Language;
 use App\Models\MenuItem;
+use App\Models\OurMission;
 use App\Models\SocialLink;
 
 class CongressController extends Controller
@@ -14,6 +16,10 @@ class CongressController extends Controller
     public function index()
     {
         $congressPage = CongressPage::first();
+        $sections = CongressSection::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+        $mission = OurMission::where('is_active', true)->first();
 /*
  *
  * ეს ცვლადები გლობალურია და ყველა კონტროლერშია საჭირო
@@ -45,6 +51,6 @@ class CongressController extends Controller
  *
 */
 
-        return view('pages.congress', compact('congressPage', 'socialLinks', 'menuItems', 'languages', 'footerSetting', 'currentLanguage'));
+        return view('pages.congress', compact('congressPage', 'socialLinks', 'menuItems', 'languages', 'footerSetting', 'currentLanguage', 'sections', 'mission'));
     }
 }
