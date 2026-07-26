@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\CongressController;
 use App\Http\Controllers\Front\HomeController;
 use App\Models\Language;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,5 @@ Route::get('/lang/{code}', function ($code) {
     return redirect()->back();
 })->name('lang.switch');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/about', [CongressController::class, 'index'])->name('congress.index');
 
